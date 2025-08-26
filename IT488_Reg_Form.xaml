@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IT488_Reg_Form.IT488_Reg_Form"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="AirEase — Register"
+    BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <!-- Common styles + colors -->
+    <ContentPage.Resources>
+        <Color x:Key="BrandBlue">#24A0ED</Color>
+        <Color x:Key="ErrorRed">#D32F2F</Color>
+        <Color x:Key="OkGreen">#2E7D32</Color>
+
+        <!-- Styles used by CommunityToolkit validation behaviors -->
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="{StaticResource OkGreen}" />
+        </Style>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="{StaticResource ErrorRed}" />
+        </Style>
+
+        <!-- Entry chrome -->
+        <Style TargetType="Entry">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+            <Setter Property="Margin" Value="0,2" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <!-- Header: logo left, name right -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Start" Padding="0,6,0,12">
+                <Image Source="aireaselogo.png" HeightRequest="100" WidthRequest="100" Aspect="AspectFit"/>
+                <Label Text="AirEase" FontSize="24" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Subheading -->
+            <Label Text="Profile registration" FontSize="18" FontAttributes="Bold"/>
+
+            <!-- Profile picture selector -->
+            <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
+                <Frame Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55" HasShadow="False" BackgroundColor="#EEE">
+                    <Image x:Name="ProfileImage" Aspect="AspectFill"/>
+                </Frame>
+                <VerticalStackLayout Spacing="6">
+                    <Button Text="Add/Change Photo" Clicked="OnPickPhotoClicked" />
+                    <Label x:Name="PhotoError" Text="" TextColor="{StaticResource ErrorRed}" IsVisible="False"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- First name -->
+            <Label Text="First name"/>
+            <Entry x:Name="FirstNameEntry" Placeholder="e.g., Jane" TextChanged="AnyField_TextChanged">
+                <Entry.Behaviors>
+                    <!-- required + only letters and spaces (2–50) -->
+                    <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged"
+                        MinimumLength="2"
+                        MaximumLength="50"
+                        RegexPattern="^[A-Za-z][A-Za-z\s'-]{1,49}$" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <!-- Last name -->
+            <Label Text="Last name"/>
+            <Entry x:Name="LastNameEntry" Placeholder="e.g., Doe" TextChanged="AnyField_TextChanged">
+                <Entry.Behaviors>
+                    <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged"
+                        MinimumLength="2"
+                        MaximumLength="60"
+                        RegexPattern="^[A-Za-z][A-Za-z\s'-]{1,59}$" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <!-- DOB -->
+            <Label Text="Date of birth"/>
+            <DatePicker x:Name="DobPicker" DateSelected="DobPicker_DateSelected"/>
+            <Label x:Name="DobError" Text="" TextColor="{StaticResource ErrorRed}" IsVisible="False"/>
+
+            <!-- Address -->
+            <Label Text="Address"/>
+            <Entry x:Name="AddressEntry" Placeholder="Street, City, State/Province, ZIP" TextChanged="AnyField_TextChanged">
+                <Entry.Behaviors>
+                    <!-- required, 5–120 chars -->
+                    <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged"
+                        MinimumLength="5"
+                        MaximumLength="120" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <!-- Email -->
+            <Label Text="Email"/>
+            <Entry x:Name="EmailEntry" Placeholder="name@example.com" Keyboard="Email" TextChanged="AnyField_TextChanged">
+                <Entry.Behaviors>
+                    <toolkit:EmailValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <!-- Phone -->
+            <Label Text="Phone number"/>
+            <Entry x:Name="PhoneEntry" Placeholder="+1 5551234567" Keyboard="Telephone" TextChanged="AnyField_TextChanged">
+                <Entry.Behaviors>
+                    <!-- allow optional +, then 10–15 digits -->
+                    <toolkit:TextValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged"
+                        RegexPattern="^\+?[0-9]{10,15}$" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <!-- Password -->
+            <Label Text="Password"/>
+            <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Min 8 chars, 1 upper, 1 digit, 1 symbol" TextChanged="AnyField_TextChanged">
+                <Entry.Behaviors>
+                    <!-- Use MultiValidation to enforce strength -->
+                    <toolkit:MultiValidationBehavior
+                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                        ValidStyle="{StaticResource ValidEntryStyle}"
+                        Flags="ValidateOnValueChanged">
+                        <toolkit:CharactersValidationBehavior
+                            CharacterType="Any" MinimumCharacterTypeCount="8"
+                            toolkit:MultiValidationBehavior.Error="At least 8 characters"/>
+                        <toolkit:CharactersValidationBehavior
+                            CharacterType="UppercaseLetter" MinimumCharacterTypeCount="1"
+                            toolkit:MultiValidationBehavior.Error="At least one uppercase letter"/>
+                        <toolkit:CharactersValidationBehavior
+                            CharacterType="Digit" MinimumCharacterTypeCount="1"
+                            toolkit:MultiValidationBehavior.Error="At least one digit"/>
+                        <toolkit:CharactersValidationBehavior
+                            CharacterType="NonAlphanumericSymbol" MinimumCharacterTypeCount="1"
+                            toolkit:MultiValidationBehavior.Error="At least one symbol"/>
+                    </toolkit:MultiValidationBehavior>
+                </Entry.Behaviors>
+            </Entry>
+
+            <!-- Confirm Password -->
+            <Label Text="Confirm password"/>
+            <Entry x:Name="ConfirmPasswordEntry" IsPassword="True" TextChanged="AnyField_TextChanged" />
+            <Label x:Name="ConfirmError" Text="" TextColor="{StaticResource ErrorRed}" IsVisible="False"/>
+
+            <!-- Submit -->
+            <Button
+                x:Name="SignUpButton"
+                Text="Sign Up"
+                Clicked="SignUpButton_Clicked"
+                BackgroundColor="{StaticResource BrandBlue}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="48"
+                IsEnabled="False"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+
