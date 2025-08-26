@@ -7,6 +7,11 @@ namespace IT488_Reg_Form
 
     public partial class App : Application
     {
+
+
+     
+
+
         public App()
         {
             InitializeComponent();

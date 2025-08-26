@@ -6,7 +6,7 @@ using Microsoft.Maui.Media;
 
 namespace IT488_Reg_Form;
 
-public partial class IT488_Reg_Form : ContentPage
+partial class IT488_Reg_Form : ContentPage
 {
     const int MinAgeYears = 18;
 
@@ -21,6 +21,14 @@ public partial class IT488_Reg_Form : ContentPage
 
         // Placeholder profile image (optional: add Resources/Images/profile_placeholder.png)
         ProfileImage.Source = "profile_placeholder.png";
+
+
+        // <-- This is the handler for:  <Button Text="Go to Flight Search" Clicked="GoSearch_Clicked"/>
+        async void GoSearch_Clicked(object sender, EventArgs e)
+        {
+            // Navigate to the flight search page
+            await Navigation.PushAsync(new FlightSearchPage());
+        }
     }
 
     async void OnPickPhotoClicked(object sender, EventArgs e)
@@ -143,4 +151,12 @@ public partial class IT488_Reg_Form : ContentPage
         // TODO: send to your backend
         await DisplayAlert("Welcome to AirEase!", "Your profile has been created.", "OK");
     }
+
+     async void GoSearch_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new FlightSearchPage());
+       
+
+    }
+
 }

@@ -43,7 +43,7 @@
             </HorizontalStackLayout>
 
             <!-- Subheading -->
-            <Label Text="Profile registration" FontSize="18" FontAttributes="Bold"/>
+            <Label Text="Profile Registration" FontSize="18" FontAttributes="Bold"/>
 
             <!-- Profile picture selector -->
             <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
@@ -166,8 +166,17 @@
                 BackgroundColor="{StaticResource BrandBlue}"
                 TextColor="White"
                 CornerRadius="10"
-                HeightRequest="48"
-                IsEnabled="False"/>
+                HeightRequest="48"/>
+
+            <!-- navigate to search -->
+            <Button 
+                x:Name="GoSearchButton"
+                Text="Go to Flight Search" 
+                Clicked="GoSearch_Clicked"
+                BackgroundColor="{StaticResource BrandBlue}" 
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="48"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
