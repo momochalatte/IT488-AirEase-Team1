@@ -1,0 +1,48 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AirEase.LoyaltyPointsPage"
+             Title="Rewards">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <!-- Logo + App Name -->
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                <Image Source="aireaslogo.png" HeightRequest="60" WidthRequest="60"/>
+                <Label Text="AirEase"
+                       FontSize="24"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Banner -->
+            <Image Source="airease_rewards_banner.png"
+                   Aspect="AspectFill"
+                   HeightRequest="160"
+                   HorizontalOptions="CenterAndExpand"/>
+
+            <!-- Points Display -->
+            <Label x:Name="PointsValue"
+                   Text="0 Points"
+                   FontSize="22"
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+
+            <!-- Buttons -->
+            <Button x:Name="BtnEarnPoints"
+                    Text="Earn Loyalty Points"
+                    BackgroundColor="#4682B4"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="50"/>
+
+            <Button x:Name="BtnRedeemPoints"
+                    Text="Redeem Loyalty Points"
+                    BackgroundColor="#4169E1"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="50"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
