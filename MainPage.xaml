@@ -1,0 +1,18 @@
+﻿<ContentPage 
+    x:Class="PaymentPage.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  <VerticalStackLayout Padding="30" Spacing="10">
+        <Button
+     BackgroundColor="White"
+     TextColor="Black"
+     Text="Make Payment"
+     HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
+
+
+    
+
+    
+
