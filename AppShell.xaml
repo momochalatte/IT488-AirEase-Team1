@@ -1,16 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="PaymentPage.AppShell"
+    x:Class="AirlineShoppingCart.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:PaymentPage"
-    Shell.FlyoutBehavior="Disabled">
-    <TabBar>
-        <ShellContent Title="Home" Icon="home.png" ContentTemplate="{DataTemplate local:MainPage}" />
-        <ShellContent Title="Profile" Icon="profile.png" ContentTemplate="{DataTemplate local:ProfilePage" />
-        <ShellContent Title="Bookings" Icon="bookings.png" ContentTemplate="{DataTemplate local:BookingPage}" />
-        <ShellContent Title="Search" Icon="search.png" ContentTemplate="{DataTemplate local:SearchPage}" />
-        <ShellContent Title="Settings" Icon="settings.png" ContentTemplate="{DataTemplate local:SettingsPage}" />
-    </TabBar>
+    xmlns:local="clr-namespace:AirlineShoppingCart"
+    Title="AirlineShoppingCart">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
 </Shell>
-
-

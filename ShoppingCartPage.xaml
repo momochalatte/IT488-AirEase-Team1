@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AirlineShoppingCart.ShoppingCartPage"
+             BackgroundColor="#F9FAFB"
+             Title="Shopping Cart">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Airline Logo -->
+            <Image Source="logo.png"
+                   HeightRequest="100"
+                   HorizontalOptions="Center" />
+
+            <!-- Page Title -->
+            <Label Text="Your Cart"
+                   FontSize="28"
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold"
+                   TextColor="#333" />
+
+            <!-- Cart Items Section -->
+            <CollectionView x:Name="CartItemsCollection"
+                            SelectionMode="None"
+                            HeightRequest="300">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="#ddd" StrokeShape="RoundRectangle 10"
+                                BackgroundColor="White"
+                                Padding="10"
+                                Margin="0,5">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <!-- Flight Image -->
+                                <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" />
+
+                                <!-- Flight Details -->
+                                <VerticalStackLayout Grid.Column="1" Padding="10,0">
+                                    <Label Text="{Binding FlightName}" FontAttributes="Bold" />
+                                    <Label Text="{Binding Route}" FontSize="12" TextColor="#777" />
+                                    <Label Text="{Binding Price, StringFormat='${0:F2}'}" FontSize="14" TextColor="#333" />
+                                </VerticalStackLayout>
+
+                                <!-- Remove Button -->
+                                <Button Grid.Column="2" Text="Remove"
+                BackgroundColor="#d9534f"
+                TextColor="White"
+                Padding="8"
+                CommandParameter="{Binding .}"
+                Clicked="RemoveItem_Clicked"/>
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Total Price -->
+            <Label x:Name="TotalPriceLabel"
+                   FontSize="18"
+                   TextColor="#222"
+                   FontAttributes="Bold"
+                   HorizontalOptions="End" />
+
+            <!-- Checkout Button -->
+            <Button Text="Proceed to Checkout"
+                    BackgroundColor="#0078D7"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    Clicked="Checkout_Clicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
