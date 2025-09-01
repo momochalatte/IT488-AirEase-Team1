@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace PaymentPage
+namespace MauiLoginDemo
 {
     public static class MauiProgram
     {

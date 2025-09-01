@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiLoginDemo.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:MauiLoginDemo.ViewModels"
+    BackgroundColor="{DynamicResource PageBackgroundColor}"
+    Padding="24">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="24">
+        <!-- Logo -->
+        <Image Grid.Row="0"
+               Source="logo.png"
+               HeightRequest="120"
+               Aspect="AspectFit"
+               HorizontalOptions="Center" />
+
+        <!-- Form -->
+        <VerticalStackLayout Grid.Row="1" Spacing="16">
+
+            <!-- Username entry with left icon -->
+            <Border StrokeThickness="1"
+                    Stroke="{DynamicResource Gray200}"
+                    Background="{DynamicResource White}"
+                    StrokeShape="RoundRectangle 16">
+                <Grid ColumnDefinitions="Auto,*" Padding="12" ColumnSpacing="12">
+                    <Image Source="user.png"
+                           WidthRequest="20" HeightRequest="20"
+                           VerticalOptions="Center" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding Username}"
+                           Placeholder="Email or username"
+                           Keyboard="Email"
+                           ClearButtonVisibility="WhileEditing"
+                           ReturnType="Next" />
+                </Grid>
+            </Border>
+
+            <!-- Password entry with left lock icon + right eye toggle -->
+            <Border StrokeThickness="1"
+                    Stroke="{DynamicResource Gray200}"
+                    Background="{DynamicResource White}"
+                    StrokeShape="RoundRectangle 16">
+                <Grid ColumnDefinitions="Auto,*,Auto" Padding="12" ColumnSpacing="12">
+                    <Image Source="lock.png"
+                           WidthRequest="20" HeightRequest="20"
+                           VerticalOptions="Center" />
+                    <Entry Grid.Column="1"
+                           Text="{Binding Password}"
+                           Placeholder="Password"
+                           IsPassword="{Binding IsPassword}"
+                           ReturnType="Done" />
+                    <ImageButton Grid.Column="2"
+                                 Source="{Binding EyeIcon}"
+                                 Command="{Binding TogglePasswordCommand}"
+                                 BackgroundColor="Transparent"
+                                 WidthRequest="28" HeightRequest="28"
+                                 Padding="0"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <Button Text="Sign in"
+                    HeightRequest="48"
+                    CornerRadius="12"
+                    FontAttributes="Bold"
+                    Command="{Binding LoginCommand}" />
+
+            <Button Text="Register"
+        HeightRequest="48"
+        CornerRadius="12"
+        BackgroundColor="#EEEEEE"
+        TextColor="#333333"
+        Command="{Binding RegisterCommand}" />
+
+
+            <Label Text="{Binding Message}"
+                   TextColor="Red"
+                   IsVisible="{Binding HasMessage}" />
+        </VerticalStackLayout>
+
+        <!-- Footer -->
+        <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center">
+            <Label Text="Forgot your password?" />
+            <Label Text="  •  " />
+            <Label Text="Create account" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

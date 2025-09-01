@@ -1,4 +1,4 @@
-﻿namespace AirlineShoppingCart
+﻿namespace MauiLoginDemo
 {
     public partial class AppShell : Shell
     {
