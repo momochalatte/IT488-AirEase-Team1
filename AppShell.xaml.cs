@@ -1,4 +1,4 @@
-﻿namespace MauiLoginDemo
+﻿namespace PaymentPage
 {
     public partial class AppShell : Shell
     {

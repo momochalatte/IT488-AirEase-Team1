@@ -1,18 +1,64 @@
-﻿<ContentPage 
-    x:Class="PaymentPage.MainPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-  <VerticalStackLayout Padding="30" Spacing="10">
-        <Button
-     BackgroundColor="White"
-     TextColor="Black"
-     Text="Make Payment"
-     HorizontalOptions="Center" />
-    </VerticalStackLayout>
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PaymentPage.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20,0"
+            Spacing="15">
+            <Image
+                Source="aireaselogo.png"
+                HeightRequest="185"
+                HorizontalOptions="Center"
+                Margin="0, 10"/>
+
+            <!--Flight Details-->
+            <Label
+               Text="Flight Detail"
+                FontAttributes="Bold" 
+                FontSize="18"/>
+            <Lable="To:"
+            <Label Text="From: New York"/>
+            <Label Text="Passengers: 1 Class: Economy"/>
+            
+                <!--Billin Info-->
+
+            <Label Text="Billing Information"
+                   FontAttributes="Bold"
+                   FontSize="18"/>
+            <Entry Placeholder="Full Name"
+                   x:Name="NameEntry"/>
+            <Entry Placeholder="Billing Address"
+                    x:Name="AddressEntry" />
+            <!--Card Info-->
+            <Label Text="Card Information"
+                   FontAttributes="Bold"
+                   FontSize="18"/>
+            <Entry Placeholder="Card Number"
+                   Keyboard="Numeric"
+                   x:Name="CardNumberEntry"/>
+            <HorizontalStackLayout Spacing="10">
+                <Entry Placeholder="Expiry Date (MM/YY)"
+                       Keyboard="Numeric"
+                       x:Name="ExpiryDateEntry"/>
+
+                <Entry Placeholder="CVV"
+                       Keyboard="Numeric"
+                       IsPassword="True"
+                       x:Name="cvvEntry"/>
+                <HorizontalStackLayout/>
+                <!--Total Button-->
+                <Label Text="Total: $199.99"
+                       FontAttributes="Bold"
+                       FontSize="18"/>
+                <Button Text="Book Now"
+                        BackgroundColor="Blue"
+                        TextColor="White"
+                        Clicked="OnPayNowClicked"/>
+
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>
-
-
-    
-
-    
-
