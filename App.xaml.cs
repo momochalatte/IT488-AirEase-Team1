@@ -1,4 +1,4 @@
-﻿namespace MauiLoginDemo
+﻿namespace AirEase
 {
     public partial class App : Application
     {

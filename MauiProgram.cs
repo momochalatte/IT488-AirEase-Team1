@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace MauiLoginDemo
+namespace AirEase
 {
     public static class MauiProgram
     {

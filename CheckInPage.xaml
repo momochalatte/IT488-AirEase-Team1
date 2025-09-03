@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AirEase.Pages.CheckInPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:AirEase.ViewModels"
+    Title="Check-In">
+
+    <ContentPage.BindingContext>
+        <viewmodels:CheckInViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <Grid Padding="24" RowDefinitions="Auto,Auto" RowSpacing="16">
+
+            <!-- Header -->
+            <VerticalStackLayout Grid.Row="0" Spacing="12" HorizontalOptions="Center">
+                <Image Source="logo.png" HeightRequest="64" Aspect="AspectFit" />
+                <Label Text="AirEase Check-In"
+                       FontSize="24"
+                       HorizontalTextAlignment="Center"
+                       FontAttributes="Bold"/>
+                <Label Text="Enter your details to retrieve your booking and get your mobile boarding pass."
+                       Opacity="0.8"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Form Card -->
+            <Border Grid.Row="1" StrokeShape="RoundRectangle 24"
+                    Padding="20" StrokeThickness="1" >
+                <VerticalStackLayout Spacing="12">
+
+                    <Label Text="Passenger" FontAttributes="Bold" />
+
+                    <Entry Placeholder="Last name (required)"
+                           Text="{Binding LastName}" ReturnType="Next" />
+
+                    <Label Text="Trip Details" FontAttributes="Bold" Margin="0,12,0,0"/>
+
+                    <Entry Placeholder="Confirmation code (e.g., ABC123)"
+                           Text="{Binding ConfirmationCode}" ReturnType="Next" />
+
+                    <Label Text="or" HorizontalTextAlignment="Center" Opacity="0.6" />
+
+                    <Entry Placeholder="Flight number (e.g., AE123)"
+                           Text="{Binding FlightNumber}" ReturnType="Next" />
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="Departure date" VerticalTextAlignment="Center" />
+                        <DatePicker Date="{Binding DepartureDate}" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="12">
+                        <Label Text="Seat" VerticalTextAlignment="Center" />
+                        <Picker ItemsSource="{Binding SeatOptions}"
+                                SelectedItem="{Binding SelectedSeat}" />
+                    </HorizontalStackLayout>
+
+                    <Button Text="Check In"
+                            Command="{Binding CheckInCommand}"
+                            IsEnabled="{Binding IsNotBusy}"
+                            />
+
+                    <Button Text="Clear"
+                            Command="{Binding ClearCommand}"
+                            IsEnabled="{Binding IsNotBusy}"
+                            />
+
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+                    <Label Text="{Binding StatusMessage}"
+                           SemanticProperties.HeadingLevel="Level2"
+                           LineBreakMode="WordWrap" />
+
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
