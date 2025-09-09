@@ -3,10 +3,11 @@
     x:Class="IT488_Reg_Form.FlightSearchPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    xmlns:local="clr-namespace:IT488_Reg_Form"
     Title="Search Flights"
     BackgroundColor="White">
 
-    
     <ContentPage.Resources>
         <Color x:Key="BrandBlue">#24A0ED</Color>
         <Color x:Key="FieldGray">#D9D9D9</Color>
@@ -28,51 +29,52 @@
         </Style>
     </ContentPage.Resources>
 
+    <!-- Single content root (Grid) -->
     <Grid RowDefinitions="Auto,Auto,*,Auto">
 
-        <!-- ====== Header: logo + AirEase (left) ====== -->
+        <!-- Header: logo + AirEase -->
         <Grid Padding="16" ColumnDefinitions="40,*,40,40">
             <Image Source="aireaselogo.png" HeightRequest="100" WidthRequest="100" VerticalOptions="Center"/>
             <Label Grid.Column="1" Text="AirEase" FontSize="22" FontAttributes="Bold" VerticalTextAlignment="Center"/>
         </Grid>
 
-        <!-- ====== Subheading ====== -->
+        <!-- Subheading -->
         <Label Grid.Row="1" Text="Search Flights" FontSize="24" FontAttributes="Bold"
                HorizontalOptions="Center" Margin="0,0,0,8"/>
 
-        <!-- ====== Form ====== -->
+        <!-- Form + Results -->
         <ScrollView Grid.Row="2">
             <VerticalStackLayout Padding="20,0" Spacing="8">
 
                 <!-- Destination -->
                 <Grid Style="{StaticResource FieldRow}">
-                    <Entry x:Name="DestinationEntry" Placeholder="Destination"/>
+                    <Entry x:Name="DestinationEntry" Placeholder="Destination" />
                     <Image Grid.Column="1" Source="ic_pin.png" HeightRequest="18" WidthRequest="18"
                            VerticalOptions="Center" HorizontalOptions="End"/>
                 </Grid>
 
                 <!-- Departing From -->
                 <Grid Style="{StaticResource FieldRow}">
-                    <Entry x:Name="DepartingFromEntry" Placeholder="Departing From"/>
+                    <Entry x:Name="DepartingFromEntry" Placeholder="Departing From" />
                     <Image Grid.Column="1" Source="ic_pin.png" HeightRequest="18" WidthRequest="18"
                            VerticalOptions="Center" HorizontalOptions="End"/>
                 </Grid>
 
                 <!-- Departure Date -->
                 <Grid Style="{StaticResource FieldRow}">
-                    <DatePicker x:Name="DepartureDatePicker"/>
+                    <DatePicker x:Name="DepartureDatePicker" />
                     <Image Grid.Column="1" Source="ic_calendar.png" HeightRequest="18" WidthRequest="18"
                            VerticalOptions="Center" HorizontalOptions="End"/>
                 </Grid>
 
                 <!-- Departure Time -->
                 <Grid Style="{StaticResource FieldRow}">
-                    <TimePicker x:Name="DepartureTimePicker"/>
+                    <TimePicker x:Name="DepartureTimePicker" />
                     <Image Grid.Column="1" Source="ic_clock.png" HeightRequest="18" WidthRequest="18"
                            VerticalOptions="Center" HorizontalOptions="End"/>
                 </Grid>
 
-                <!-- Trip Type (checkboxes like the mock) -->
+                <!-- Trip Type -->
                 <Grid ColumnDefinitions="Auto,*" Margin="0,4,0,0">
                     <VerticalStackLayout Spacing="20">
                         <CheckBox x:Name="RoundTripCheck" CheckedChanged="TripType_CheckedChanged"/>
@@ -105,27 +107,40 @@
                         TextColor="White"
                         CornerRadius="6" HeightRequest="48" Margin="0,16,0,8"/>
 
-                <!-- Results List -->
-                <CollectionView x:Name="ResultsView" SelectionMode="None">
+                <!-- Results List (single CollectionView) -->
+                <CollectionView x:Name="ResultsView"
+                                ItemsSource="{Binding FlightResults}"
+                                SelectionMode="None">
                     <CollectionView.EmptyView>
                         <Grid Padding="8">
                             <Label Text="No results yet. Fill the form and tap Search Flights." TextColor="#666"/>
                         </Grid>
                     </CollectionView.EmptyView>
+
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="local:FlightOffer">
                             <Frame Margin="0,6" Padding="12" HasShadow="False" BorderColor="#EEE" CornerRadius="10">
                                 <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10">
                                     <Label Grid.ColumnSpan="2" Text="{Binding Airline}" FontAttributes="Bold" FontSize="16"/>
                                     <Label Grid.Row="1" Text="{Binding Route}" TextColor="#444"/>
                                     <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding PriceDisplay}"
                                            FontSize="18" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+
                                     <HorizontalStackLayout Grid.Row="2" Spacing="10">
                                         <Label Text="{Binding Details}" TextColor="#666"/>
                                         <Frame Padding="6,2" BackgroundColor="#E0F7E9" CornerRadius="6" IsVisible="{Binding IsCheapest}">
                                             <Label Text="Cheapest" TextColor="#167A3E" FontAttributes="Bold" FontSize="12"/>
                                         </Frame>
                                     </HorizontalStackLayout>
+
+                                    <!-- Add to Cart -->
+                                    <Button Grid.Column="1" Grid.Row="2"
+                                            Text="Add to Cart"
+                                            Clicked="AddToCart_Clicked"
+                                            CommandParameter="{Binding .}"
+                                            CornerRadius="6" HeightRequest="36"
+                                            BackgroundColor="#2C79B9" TextColor="White"
+                                            HorizontalOptions="End"/>
                                 </Grid>
                             </Frame>
                         </DataTemplate>
@@ -135,29 +150,39 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Optional visual bottom bar (icons only) -->
+        <!-- Bottom nav (tap to navigate) -->
         <Grid Grid.Row="3" BackgroundColor="White" Padding="16,8" ColumnDefinitions="*,*,*,*">
             <VerticalStackLayout HorizontalOptions="Center">
-                <Image Source="ic_profile.png" HeightRequest="28"/>
+                <Image Source="ic_profile.png" HeightRequest="28">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnProfileTap"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <Label Text="Profile"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
                 <Image Source="ic_search.png" HeightRequest="28"/>
                 <Label Text="Search"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
-                <Image Source="ic_checkin.png" HeightRequest="28"/>
+                <Image Source="ic_checkin.png" HeightRequest="28">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCheckInTap"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <Label Text="Check In"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center">
-                <Image Source="ic_rewards.png" HeightRequest="28"/>
+                <Image Source="ic_rewards.png" HeightRequest="28">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRewardsTap"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <Label Text="Rewards"/>
             </VerticalStackLayout>
-        </Grid>
-
-
-        <Grid>
-            <Label Text="Flight Search" HorizontalOptions="Center" VerticalOptions="Center"/>
         </Grid>
     </Grid>
 </ContentPage>

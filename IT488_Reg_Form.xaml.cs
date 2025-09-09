@@ -9,8 +9,9 @@ namespace IT488_Reg_Form;
 partial class IT488_Reg_Form : ContentPage
 {
     const int MinAgeYears = 18;
+    private string? _profilePhotoPath;
 
-    // Change the constructor name from 'MainPage' to match the class name 'IT488_Reg_Form'
+
     public IT488_Reg_Form()
     {
         InitializeComponent();
@@ -30,6 +31,20 @@ partial class IT488_Reg_Form : ContentPage
             await Navigation.PushAsync(new FlightSearchPage());
         }
     }
+
+    async void BackToSignIn_Clicked(object sender, EventArgs e)
+    {
+        // If this page was pushed from SignInPage, just go back.
+        if (Navigation?.NavigationStack?.Count > 1)
+        {
+            await Navigation.PopAsync();
+            return;
+        }
+
+        // If registration is the root (no back stack), navigate to SignInPage.
+        await Navigation.PushAsync(new SignInPage());
+    }
+
 
     async void OnPickPhotoClicked(object sender, EventArgs e)
     {
@@ -147,16 +162,60 @@ partial class IT488_Reg_Form : ContentPage
             await DisplayAlert("Check form", "Please correct the highlighted fields.", "OK");
             return;
         }
+        // Hash password
+        string pwdHash = BCrypt.Net.BCrypt.HashPassword(PasswordEntry.Text);
+
+        // Create profile object
+        var profile = new UserProfile
+        {
+            FirstName = FirstNameEntry.Text!.Trim(),
+            LastName = LastNameEntry.Text!.Trim(),
+            DateOfBirth = DobPicker.Date,
+            Address = AddressEntry.Text!.Trim(),
+            Email = EmailEntry.Text!.Trim().ToLowerInvariant(),
+            Phone = PhoneEntry.Text!.Trim(),
+            PasswordHash = pwdHash,
+            ProfileImagePath = _profilePhotoPath // set when you picked a photo
+        };
+
+        // Check email uniqueness
+        var existing = await App.Database.GetByEmailAsync(profile.Email);
+        if (existing != null)
+        {
+            await DisplayAlert("Email in use", "An account with this email already exists.", "OK");
+            return;
+        }
+        // Save to local database
+        await App.Database.InsertAsync(profile);
+
+
 
         // TODO: send to your backend
         await DisplayAlert("Welcome to AirEase!", "Your profile has been created.", "OK");
-    }
 
-     async void GoSearch_Clicked(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new FlightSearchPage());
+        await Navigation.PushAsync(new ProfilePage(profile));
+
+
        
 
+    }
+
+    async void GoSearch_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await Navigation.PushAsync(new FlightSearchPage());
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Navigation error", ex.Message, "OK");
+        }
+    }
+
+
+    async void GoCheckIn_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CheckInPage());
     }
 
 }

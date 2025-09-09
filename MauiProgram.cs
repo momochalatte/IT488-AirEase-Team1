@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
+using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
 
-namespace AirEase
+namespace IT488_Reg_Form
 {
     public static class MauiProgram
     {
@@ -9,6 +12,7 @@ namespace AirEase
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

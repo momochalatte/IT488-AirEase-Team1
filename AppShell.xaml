@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="AirEase.AppShell"
+    x:Class="IT488_Reg_Form.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:pages="clr-namespace:AirEase.Pages">
+    xmlns:local="clr-namespace:IT488_Reg_Form"
+    Title="IT488_Reg_Form">
 
-    <TabBar>
-        <ShellContent Title="Check-In"
-                      ContentTemplate="{DataTemplate pages:CheckInPage}" />
-    </TabBar>
+    <ShellContent
+        Title="Home"
+        Route="MainPage"
+        ContentTemplate="{DataTemplate local:IT488_Reg_Form}" />
 </Shell>
-

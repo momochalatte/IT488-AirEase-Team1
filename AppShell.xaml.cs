@@ -1,22 +1,10 @@
-﻿using AirEase.Pages;
-
-namespace AirEase;
-
-public partial class AppShell : Shell
+﻿namespace IT488_Reg_Form
 {
-    public AppShell()
+    public partial class AppShell : Shell
     {
-        InitializeComponent();
-
-        // Route for navigation by name:
-        Routing.RegisterRoute(nameof(CheckInPage), typeof(CheckInPage));
-
-        // Optional: a shell item so it shows in the tab bar or flyout
-        Items.Add(new ShellContent
+        public AppShell()
         {
-            Title = "Check-In",
-            ContentTemplate = new DataTemplate(typeof(CheckInPage)),
-            Route = "checkin"
-        });
+            InitializeComponent();
+        }
     }
 }

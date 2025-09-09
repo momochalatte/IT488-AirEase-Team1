@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="PaymentPage.PaymentPage"
-        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ContentPage
+    x:Class="IT488_Reg_Form.PaymentPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    Title="Payment"
+    BackgroundColor="White">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
-            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
-            </Frame>
-            <VerticalStackLayout/>
-            <Label Text="Flight Info: Pennsylvania ->Florida" FontAttributes="Bold"/>
-    <Label Text="$XXX.XX" FontSize="24" TextColor="DarkGreen"/>
+        <VerticalStackLayout Padding="16" Spacing="10">
 
-    <Label Text=":Billing Information" FontAttributes="Bold" />
-    <Entry Placeholder="Full Name"/>
-    <Entry Placeholder="Address"/>
+            <Label Text="Total Due" FontSize="18" />
+            <Label Text="{Binding Subtotal, StringFormat='{}{0:C2}'}"
+                   FontSize="24" FontAttributes="Bold" />
 
-    <Label Text="Payment Details" FontAttributes="Bold" />
-    <Entry Placeholder="Card Number" Keyboard="Numeric"/>
-    <HorizontalStackLayout Spacing="10">
-        <Entry Placeholder="Expiry Date" Keyboard="Numeric"/>
-        <Entry Placeholder="CVV" Keyboard="Numeric" WidthRequest="100"/>
-    </HorizontalStackLayout>
+            <BoxView HeightRequest="1" BackgroundColor="#DDD" Margin="0,8"/>
 
-    <Button Text="Book Now" BackgroundColor="DarkBlue" TextColor="White" CornerRadius="5"/>
-    </VerticalStackLayout>
+            <Label Text="Name on Card" />
+            <Entry x:Name="NameOnCardEntry" Placeholder="e.g., Jane Doe" />
+
+            <Label Text="Card Number" />
+            <Entry x:Name="CardNumberEntry" Keyboard="Numeric" MaxLength="19" Placeholder="#### #### #### ####" />
+
+            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="10">
+                <VerticalStackLayout>
+                    <Label Text="Expiration (MM/YY)"/>
+                    <Entry x:Name="ExpiryEntry" Placeholder="MM/YY" MaxLength="5" Keyboard="Numeric"/>
+                </VerticalStackLayout>
+                <BoxView WidthRequest="10" />
+                <VerticalStackLayout Grid.Column="2">
+                    <Label Text="CVV"/>
+                    <Entry x:Name="CvvEntry" Placeholder="***" MaxLength="4" Keyboard="Numeric" IsPassword="True"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Button Text="Pay Now"
+                    Clicked="PayNow_Clicked"
+                    BackgroundColor="#2C79B9" TextColor="White"
+                    CornerRadius="8" HeightRequest="48" />
+
+            <Label x:Name="ErrorLabel" TextColor="#D32F2F" IsVisible="False"/>
+
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
-

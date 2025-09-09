@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IT488_Reg_Form.EditProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    Title="Edit Profile"
+    BackgroundColor="White">
+
+    <!-- ONE root -->
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="12">
+
+                <!-- Header -->
+                <Grid ColumnDefinitions="Auto,*" Padding="0,0,0,8">
+                    <Image Source="aireaselogo.png" HeightRequest="32" WidthRequest="32"/>
+                    <Label Grid.Column="1" Text="AirEase" FontSize="22" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                </Grid>
+
+                <Label Text="Edit your information" FontAttributes="Bold" FontSize="18"/>
+
+                <!-- Photo -->
+                <HorizontalStackLayout Spacing="16" VerticalOptions="Center">
+                    <Frame Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55" HasShadow="False" BackgroundColor="#EEE">
+                        <Image x:Name="ProfileImage" Aspect="AspectFill"/>
+                    </Frame>
+                    <VerticalStackLayout Spacing="6">
+                        <Button Text="Change Photo" Clicked="PickPhoto_Clicked" />
+                        <Label x:Name="PhotoError" TextColor="#D32F2F" IsVisible="False"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+
+                <!-- Names -->
+                <Label Text="First name"/>
+                <Entry x:Name="FirstNameEntry" Placeholder="Jane"/>
+
+                <Label Text="Last name"/>
+                <Entry x:Name="LastNameEntry" Placeholder="Doe"/>
+
+                <!-- DOB -->
+                <Label Text="Date of birth"/>
+                <DatePicker x:Name="DobPicker"/>
+                <Label x:Name="DobError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <!-- Address -->
+                <Label Text="Address"/>
+                <Entry x:Name="AddressEntry" Placeholder="Street, City, State, ZIP"/>
+
+                <!-- Email -->
+                <Label Text="Email"/>
+                <Entry x:Name="EmailEntry" Placeholder="name@example.com" Keyboard="Email"/>
+
+                <!-- Phone -->
+                <Label Text="Phone"/>
+                <Entry x:Name="PhoneEntry" Placeholder="+1 5551234567" Keyboard="Telephone"/>
+
+                <BoxView HeightRequest="1" BackgroundColor="#DDD" Margin="0,6"/>
+
+                <!-- Change password (optional) -->
+                <Label Text="Change Password (optional)" FontAttributes="Bold"/>
+                <Label Text="Enter your current password to set a new one." TextColor="#666" FontSize="12"/>
+
+                <Label Text="Current password"/>
+                <Entry x:Name="CurrentPasswordEntry" IsPassword="True" Placeholder="Current password"/>
+
+                <Label Text="New password"/>
+                <Entry x:Name="NewPasswordEntry" IsPassword="True" Placeholder="Min 8 chars, 1 upper, 1 digit, 1 symbol"/>
+
+                <Label Text="Confirm new password"/>
+                <Entry x:Name="ConfirmPasswordEntry" IsPassword="True" Placeholder="Repeat new password"/>
+                <Label x:Name="PasswordError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <!-- Actions -->
+                <HorizontalStackLayout Spacing="12" Margin="0,10,0,0">
+                    <Button Text="Save" Clicked="Save_Clicked" BackgroundColor="#2C79B9" TextColor="White" CornerRadius="8" HeightRequest="46"/>
+                    <Button Text="Cancel" Clicked="Cancel_Clicked" BackgroundColor="#EEE" TextColor="#222" CornerRadius="8" HeightRequest="46"/>
+                </HorizontalStackLayout>
+
+                <ActivityIndicator x:Name="Busy" IsRunning="False" IsVisible="False"/>
+                <Label x:Name="FormError" TextColor="#D32F2F" IsVisible="False"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom nav bar -->
+        <controls:BottomNavBar Grid.Row="1"/>
+    </Grid>
+</ContentPage>

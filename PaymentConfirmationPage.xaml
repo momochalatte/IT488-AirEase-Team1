@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IT488_Reg_Form.PaymentConfirmationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:IT488_Reg_Form"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    Title="Payment Confirmed"
+    BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <!-- Brand/Header -->
+            <Grid ColumnDefinitions="Auto,*" Padding="0,0,0,6">
+                <!-- Use aireaselogo.png only if you already have it; otherwise remove this Image line -->
+                <Image Source="aireaselogo.png" HeightRequest="64" WidthRequest="64"/>
+                <Label Grid.Column="1" Text="AirEase" FontSize="22" FontAttributes="Bold"
+                       VerticalTextAlignment="Center"/>
+            </Grid>
+
+            <!-- Success check & headline -->
+            <Label Text="✅" FontSize="56" HorizontalTextAlignment="Center" />
+            <Label Text="Payment Successful" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+            <Label Text="Your booking is confirmed. A receipt has been generated below." 
+                   FontSize="14" TextColor="#555" HorizontalTextAlignment="Center" />
+
+            <!-- Confirmation summary -->
+            <Frame Padding="14" CornerRadius="12" BorderColor="#EEE">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <Label Text="Confirmation Code" />
+                    <Label Grid.Column="1" Text="{Binding ConfirmationCode}" FontAttributes="Bold" />
+
+                    <Label Grid.Row="1" Text="Date" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding PurchasedAt, StringFormat='{}{0:MMM d, yyyy h:mm tt}'}" />
+
+                    <Label Grid.Row="2" Text="Total Paid" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding TotalPaid, StringFormat='{}{0:C2}'}" FontAttributes="Bold" />
+
+                    <Label Grid.Row="3" Text="Items" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding ItemCount}" />
+                </Grid>
+            </Frame>
+
+            <!-- Purchased flights -->
+            <Label Text="Your Flights" FontAttributes="Bold" FontSize="18" />
+            <CollectionView ItemsSource="{Binding PurchasedItems}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,6" Padding="12" HasShadow="False" BorderColor="#EEE" CornerRadius="10">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="10">
+                                <Label Grid.ColumnSpan="2" Text="{Binding Airline}" FontAttributes="Bold" FontSize="16"/>
+                                <Label Grid.Row="1" Text="{Binding Route}" TextColor="#444"/>
+                                <Label Grid.Column="1" Grid.RowSpan="2" Text="{Binding PriceDisplay}"
+                                       FontSize="18" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                <Label Grid.Row="2" Text="{Binding Details}" TextColor="#666"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <HorizontalStackLayout Spacing="12" Margin="0,10,0,0">
+                <Button Text="Done" Clicked="Done_Clicked"
+                        BackgroundColor="#2C79B9" TextColor="White"
+                        CornerRadius="8" HeightRequest="46" />
+                <Button Text="Back to Search" Clicked="BackToSearch_Clicked"
+                        BackgroundColor="#EEE" TextColor="#222"
+                        CornerRadius="8" HeightRequest="46" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

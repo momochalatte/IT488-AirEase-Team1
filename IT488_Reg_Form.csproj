@@ -67,16 +67,106 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Controls\BottomNavBar.xaml.cs">
+	    <DependentUpon>BottomNavBar.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="IT488_Reg_Form.xaml.cs">
 	    <DependentUpon>IT488_Reg_Form.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="FlightSearchPage.xaml.cs">
 	    <DependentUpon>FlightSearchPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="AccountRecoveryPage.xaml.cs">
+	    <DependentUpon>AccountRecoveryPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="CartPage.xaml.cs">
+	    <DependentUpon>CartPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="EditProfilePage.xaml.cs">
+	    <DependentUpon>EditProfilePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="CheckInPage.xaml.cs">
+	    <DependentUpon>CheckInPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="RewardsPage.xaml.cs">
+	    <DependentUpon>RewardsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="PaymentConfirmationPage.xaml.cs">
+	    <DependentUpon>PaymentConfirmationPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="PaymentPage.xaml.cs">
+	    <DependentUpon>PaymentPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="SignInPage.xaml.cs">
+	    <DependentUpon>SignInPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ProfilePage.xaml.cs">
+	    <DependentUpon>ProfilePage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Update="Resources\Images\aireaselogo.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_calendar.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_checkin.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_chevron.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_clock.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_pin.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_profile.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_rewards.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\ic_search.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </MauiImage>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Controls\BottomNavBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="FlightSearchPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AccountRecoveryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CartPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="EditProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CheckInPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="RewardsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="PaymentConfirmationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="PaymentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SignInPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

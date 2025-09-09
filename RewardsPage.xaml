@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IT488_Reg_Form.RewardsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:IT488_Reg_Form"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    Title="Rewards"
+    BackgroundColor="White">
+
+    <!-- ONE root: a Grid with two rows (content + bottom bar) -->
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="12">
+
+                <!-- Header -->
+                <Grid ColumnDefinitions="Auto,*" Padding="0,0,0,8">
+                    <!-- remove the next Image if you don't have this asset yet -->
+                    <Image Source="aireaselogo.png" HeightRequest="28" WidthRequest="28"/>
+                    <Label Grid.Column="1"
+                           Text="AirEase"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           VerticalTextAlignment="Center"/>
+                </Grid>
+
+                <Label Text="Loyalty Rewards" FontAttributes="Bold" FontSize="20"/>
+
+                <!-- Balance + Tier -->
+                <Frame Padding="14" CornerRadius="12" BorderColor="#EEE">
+                    <VerticalStackLayout Spacing="6">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Points Balance" />
+                            <Label x:Name="PointsLabel" Grid.Column="1" FontAttributes="Bold" />
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Tier" />
+                            <Label x:Name="TierLabel" Grid.Column="1" FontAttributes="Bold" />
+                        </Grid>
+
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Label Text="Progress to next tier" />
+                            <ProgressBar x:Name="TierProgress" Progress="0"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Redeem -->
+                <Frame Padding="14" CornerRadius="12" BorderColor="#EEE">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Redeem Points" FontAttributes="Bold"/>
+                        <HorizontalStackLayout Spacing="8">
+                            <Entry x:Name="RedeemEntry"
+                                   Placeholder="Points to redeem (e.g., 100)"
+                                   Keyboard="Numeric"
+                                   WidthRequest="200"/>
+                            <Button Text="Redeem"
+                                    Clicked="Redeem_Clicked"
+                                    BackgroundColor="#2C79B9"
+                                    TextColor="White"
+                                    CornerRadius="8"/>
+                        </HorizontalStackLayout>
+                        <Label x:Name="RedeemError" TextColor="#D32F2F" IsVisible="False"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- History -->
+                <Label Text="History" FontAttributes="Bold" FontSize="18"/>
+                <CollectionView x:Name="TxnView" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Grid Padding="8">
+                            <Label Text="No transactions yet." TextColor="#666"/>
+                        </Grid>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:PointsTransaction">
+                            <Frame Margin="0,6" Padding="12" HasShadow="False" BorderColor="#EEE" CornerRadius="10">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="10">
+                                    <Label Grid.ColumnSpan="2"
+                                           Text="{Binding Description}"
+                                           FontAttributes="Bold"/>
+                                    <Label Grid.Row="1"
+                                           Text="{Binding Timestamp, StringFormat='{}{0:MMM d, yyyy h:mm tt}'}"
+                                           TextColor="#666"/>
+                                    <Label Grid.Column="1" Grid.RowSpan="2"
+                                           Text="{Binding Points}"
+                                           FontSize="18" FontAttributes="Bold"
+                                           VerticalTextAlignment="Center"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom navigation bar -->
+        <controls:BottomNavBar Grid.Row="1"/>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IT488_Reg_Form.SignInPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="Sign In"
+    BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <Color x:Key="BrandBlue">#24A0ED</Color>
+        <Color x:Key="ErrorRed">#D32F2F</Color>
+        <Style TargetType="Entry">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+            <Setter Property="Margin" Value="0,6" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextColor" Value="#222" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- Header: logo + AirEase -->
+        <Grid Padding="16" ColumnDefinitions="40,*">
+            <Image Source="aireaselogo.png" HeightRequest="64" WidthRequest="64" VerticalOptions="Center"/>
+            <Label Grid.Column="1" Text="AirEase" FontSize="22" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+        </Grid>
+
+        <!-- Subheading -->
+        <Label Grid.Row="1" Text="Sign In" FontSize="24" FontAttributes="Bold"
+               HorizontalOptions="Center" Margin="0,0,0,8"/>
+
+        <!-- Form -->
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="20,0" Spacing="10">
+
+                <!-- Email -->
+                <Label Text="Email"/>
+                <Entry x:Name="EmailEntry" Placeholder="name@example.com" Keyboard="Email" TextChanged="AnyField_Changed">
+                    <Entry.Behaviors>
+                        <toolkit:EmailValidationBehavior Flags="ValidateOnValueChanged" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label x:Name="EmailError" TextColor="{StaticResource ErrorRed}" IsVisible="False"/>
+
+                <!-- Password -->
+                <Label Text="Password"/>
+                <Grid ColumnDefinitions="*,Auto" >
+                    <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="Your password" TextChanged="AnyField_Changed">
+                        <Entry.Behaviors>
+                            <toolkit:TextValidationBehavior Flags="ValidateOnValueChanged" MinimumLength="8" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <CheckBox Grid.Column="1" x:Name="ShowPwd" VerticalOptions="Center" CheckedChanged="ShowPwd_CheckedChanged"/>
+                </Grid>
+                <Label Text="Show password" FontSize="12" TextColor="#666" />
+
+                <!-- Remember me -->
+                <Grid ColumnDefinitions="Auto,*" Margin="0,4,0,0">
+                    <CheckBox x:Name="RememberMeCheck" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Remember me" VerticalTextAlignment="Center"/>
+                </Grid>
+
+                <!-- Sign In -->
+                <Button x:Name="SignInButton"
+                        Text="Sign In"
+                        Clicked="SignInButton_Clicked"
+                        BackgroundColor="{StaticResource BrandBlue}"
+                        TextColor="White"
+                        CornerRadius="8"
+                        HeightRequest="48"
+                        IsEnabled="True"
+                        Margin="0,12,0,0"/>
+
+                <!-- Register (NEW) -->
+                <Button x:Name="RegisterButton"
+                        Text="Register"
+                        Clicked="Register_Clicked"
+                        BackgroundColor="#EEEEEE"
+                        TextColor="#222"
+                        CornerRadius="8"
+                        HeightRequest="48"
+                        Margin="0,8,0,12"/>
+
+
+                <!-- Forgot link -->
+                <Label Text="Forgot username or password?"
+       TextColor="#2C79B9"
+       FontAttributes="Bold"
+       HorizontalOptions="Center"
+       Margin="0,4,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Forgot_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <!-- Busy / status -->
+                <ActivityIndicator x:Name="BusyIndicator" IsVisible="False" IsRunning="False" Color="{StaticResource BrandBlue}" />
+                <Label x:Name="AuthError" TextColor="{StaticResource ErrorRed}" IsVisible="False" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Simple bottom placeholders (optional) -->
+        <Grid Grid.Row="3" Padding="16,8" ColumnDefinitions="*,*,*,*">
+            <VerticalStackLayout HorizontalOptions="Center">
+                <Image Source="ic_profile.png" HeightRequest="24"/>
+                <Label Text="Profile" FontSize="12"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                <Image Source="ic_search.png" HeightRequest="24"/>
+                <Label Text="Search" FontSize="12"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                <Image Source="ic_checkin.png" HeightRequest="24"/>
+                <Label Text="Check In" FontSize="12"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center">
+                <Image Source="ic_rewards.png" HeightRequest="24"/>
+                <Label Text="Rewards" FontSize="12"/>
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

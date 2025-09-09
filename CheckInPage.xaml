@@ -1,79 +1,132 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="AirEase.Pages.CheckInPage"
+    x:Class="IT488_Reg_Form.CheckInPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodels="clr-namespace:AirEase.ViewModels"
-    Title="Check-In">
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    Title="Mobile Check-In"
+    BackgroundColor="White">
 
-    <ContentPage.BindingContext>
-        <viewmodels:CheckInViewModel />
-    </ContentPage.BindingContext>
+    <!-- Resources -->
+    <ContentPage.Resources>
+        <Color x:Key="BrandBlue">#24A0ED</Color>
+        <Color x:Key="FieldGray">#EDEDED</Color>
+        <Thickness x:Key="FieldMargin">0,6,0,6</Thickness>
 
-    <ScrollView>
-        <Grid Padding="24" RowDefinitions="Auto,Auto" RowSpacing="16">
+        <Style x:Key="FieldRow" TargetType="Grid">
+            <Setter Property="BackgroundColor" Value="{StaticResource FieldGray}" />
+            <Setter Property="Padding" Value="12,10" />
+            <Setter Property="Margin" Value="{StaticResource FieldMargin}" />
+            <Setter Property="ColumnDefinitions">
+                <Setter.Value>
+                    <ColumnDefinitionCollection>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="28" />
+                    </ColumnDefinitionCollection>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
 
-            <!-- Header -->
-            <VerticalStackLayout Grid.Row="0" Spacing="12" HorizontalOptions="Center">
-                <Image Source="logo.png" HeightRequest="64" Aspect="AspectFit" />
-                <Label Text="AirEase Check-In"
-                       FontSize="24"
-                       HorizontalTextAlignment="Center"
-                       FontAttributes="Bold"/>
-                <Label Text="Enter your details to retrieve your booking and get your mobile boarding pass."
-                       Opacity="0.8"
-                       HorizontalTextAlignment="Center"/>
+    <!-- ONE root content -->
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- Page body -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="12">
+
+                <!-- Header -->
+                <Grid ColumnDefinitions="Auto,*" Padding="0,0,0,8">
+                    <Image Source="aireaselogo.png" HeightRequest="32" WidthRequest="32"/>
+                    <Label Grid.Column="1" Text="AirEase" FontSize="22" FontAttributes="Bold"
+                           VerticalTextAlignment="Center"/>
+                </Grid>
+
+                <Label Text="Mobile Check-In" FontAttributes="Bold" FontSize="20"/>
+
+                <!-- Confirmation / Last name -->
+                <Grid Style="{StaticResource FieldRow}">
+                    <Entry x:Name="ConfirmationEntry" Placeholder="Confirmation Code (PNR, 6 chars)" MaxLength="6" />
+                    <Image Grid.Column="1" Source="ic_ticket.png" HeightRequest="18" WidthRequest="18"
+                           VerticalOptions="Center" HorizontalOptions="End"/>
+                </Grid>
+                <Label x:Name="ConfirmationError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <Grid Style="{StaticResource FieldRow}">
+                    <Entry x:Name="LastNameEntry" Placeholder="Last Name"/>
+                    <Image Grid.Column="1" Source="ic_user.png" HeightRequest="18" WidthRequest="18"
+                           VerticalOptions="Center" HorizontalOptions="End"/>
+                </Grid>
+                <Label x:Name="LastNameError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <!-- Airline / Flight / Date -->
+                <Grid Style="{StaticResource FieldRow}">
+                    <Picker x:Name="AirlinePicker" Title="Airline"/>
+                    <Image Grid.Column="1" Source="ic_airplane.png" HeightRequest="18" WidthRequest="18"
+                           VerticalOptions="Center" HorizontalOptions="End"/>
+                </Grid>
+                <Label x:Name="AirlineError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <Grid Style="{StaticResource FieldRow}">
+                    <Entry x:Name="FlightNumberEntry" Keyboard="Numeric" Placeholder="Flight Number (e.g., 1234)" MaxLength="5"/>
+                    <Image Grid.Column="1" Source="ic_hash.png" HeightRequest="18" WidthRequest="18"
+                           VerticalOptions="Center" HorizontalOptions="End"/>
+                </Grid>
+                <Label x:Name="FlightError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <Grid Style="{StaticResource FieldRow}">
+                    <DatePicker x:Name="DepartureDatePicker"/>
+                    <Image Grid.Column="1" Source="ic_calendar.png" HeightRequest="18" WidthRequest="18"
+                           VerticalOptions="Center" HorizontalOptions="End"/>
+                </Grid>
+                <Label x:Name="DateError" TextColor="#D32F2F" IsVisible="False"/>
+
+                <Button Text="Find Reservation"
+                        Clicked="FindReservation_Clicked"
+                        BackgroundColor="{StaticResource BrandBlue}" TextColor="White"
+                        CornerRadius="8" HeightRequest="46" />
+
+                <!-- Reservation area -->
+                <Frame x:Name="ReservationFrame" IsVisible="False" Padding="12" BorderColor="#DDD" CornerRadius="10">
+                    <VerticalStackLayout Spacing="6">
+                        <Label x:Name="ItinLabel" FontAttributes="Bold"/>
+                        <Label x:Name="WhenLabel" TextColor="#555"/>
+
+                        <Label Text="Select passengers to check in:" FontAttributes="Bold"/>
+
+                        <CollectionView x:Name="PassengersView" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="Auto,*" Padding="2">
+                                        <CheckBox IsChecked="{Binding IsSelected}"
+                                                  CheckedChanged="Passenger_CheckedChanged"/>
+                                        <Label Grid.Column="1" Text="{Binding FullName}" VerticalTextAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Grid ColumnDefinitions="Auto,*" Padding="0,4,0,0">
+                            <CheckBox x:Name="TermsCheck" CheckedChanged="TermsCheck_CheckedChanged"/>
+                            <Label Grid.Column="1" Text="I agree to baggage &amp; check-in terms." VerticalTextAlignment="Center"/>
+                        </Grid>
+
+                        <Button x:Name="CheckInButton"
+                                Text="Check In"
+                                Clicked="CheckIn_Clicked"
+                                BackgroundColor="{StaticResource BrandBlue}" TextColor="White"
+                                CornerRadius="8" HeightRequest="46"
+                                IsEnabled="False"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <ActivityIndicator x:Name="Busy" IsVisible="False" IsRunning="False" />
+                <Label x:Name="FormError" TextColor="#D32F2F" IsVisible="False"/>
+
             </VerticalStackLayout>
+        </ScrollView>
 
-            <!-- Form Card -->
-            <Border Grid.Row="1" StrokeShape="RoundRectangle 24"
-                    Padding="20" StrokeThickness="1" >
-                <VerticalStackLayout Spacing="12">
-
-                    <Label Text="Passenger" FontAttributes="Bold" />
-
-                    <Entry Placeholder="Last name (required)"
-                           Text="{Binding LastName}" ReturnType="Next" />
-
-                    <Label Text="Trip Details" FontAttributes="Bold" Margin="0,12,0,0"/>
-
-                    <Entry Placeholder="Confirmation code (e.g., ABC123)"
-                           Text="{Binding ConfirmationCode}" ReturnType="Next" />
-
-                    <Label Text="or" HorizontalTextAlignment="Center" Opacity="0.6" />
-
-                    <Entry Placeholder="Flight number (e.g., AE123)"
-                           Text="{Binding FlightNumber}" ReturnType="Next" />
-
-                    <HorizontalStackLayout Spacing="12">
-                        <Label Text="Departure date" VerticalTextAlignment="Center" />
-                        <DatePicker Date="{Binding DepartureDate}" />
-                    </HorizontalStackLayout>
-
-                    <HorizontalStackLayout Spacing="12">
-                        <Label Text="Seat" VerticalTextAlignment="Center" />
-                        <Picker ItemsSource="{Binding SeatOptions}"
-                                SelectedItem="{Binding SelectedSeat}" />
-                    </HorizontalStackLayout>
-
-                    <Button Text="Check In"
-                            Command="{Binding CheckInCommand}"
-                            IsEnabled="{Binding IsNotBusy}"
-                            />
-
-                    <Button Text="Clear"
-                            Command="{Binding ClearCommand}"
-                            IsEnabled="{Binding IsNotBusy}"
-                            />
-
-                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-
-                    <Label Text="{Binding StatusMessage}"
-                           SemanticProperties.HeadingLevel="Level2"
-                           LineBreakMode="WordWrap" />
-
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
-    </ScrollView>
+        
+        <controls:BottomNavBar Grid.Row="1"/>
+    </Grid>
 </ContentPage>

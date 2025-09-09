@@ -1,8 +1,10 @@
 using System.Collections.ObjectModel;
+using System;
+using Microsoft.Maui.Controls;
 
 namespace IT488_Reg_Form;
 
- partial class FlightSearchPage : ContentPage
+partial class FlightSearchPage : ContentPage
 {
     readonly FlightSearchService _service = new();
 
@@ -27,7 +29,25 @@ namespace IT488_Reg_Form;
         var now = DateTime.Now;
         DepartureDatePicker.Date = now.Date.AddDays(1);
         DepartureTimePicker.Time = new TimeSpan(9, 0, 0);
+
+        ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Cart",
+            Order = ToolbarItemOrder.Primary,
+            Priority = 0,
+            Command = new Command(async () => await Navigation.PushAsync(new CartPage()))
+        });
     }
+
+    async void AddToCart_Clicked(object sender, EventArgs e)
+    {
+        if (sender is Button btn && btn.CommandParameter is FlightOffer offer)
+        {
+            CartService.Instance.Add(offer);
+            await DisplayAlert("Added", $"{offer.Airline} ({offer.Route}) added to cart.", "OK");
+        }
+    }
+
 
     void TripType_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
@@ -73,5 +93,32 @@ namespace IT488_Reg_Form;
         if (Offers.Count > 0) Offers[0].IsCheapest = true;
         ResultsView.ItemsSource = null;  // force refresh to show 'Cheapest' badge
         ResultsView.ItemsSource = Offers;
+    }
+
+    async void OpenCheckIn_Tapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new CheckInPage());
+    }
+
+    async void OnProfileTap(object sender, TappedEventArgs e)
+    {
+        
+        var email = await SecureStorage.GetAsync("saved_email") ?? "";
+        await Navigation.PushAsync(new ProfilePage(SessionService.CurrentUserEmail ?? ""));
+    }
+
+ 
+    // Bottom bar: Check-in icon tapped
+    async void OnCheckInTap(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new CheckInPage());
+    }
+
+    // Bottom bar: Rewards icon tapped
+    async void OnRewardsTap(object sender, TappedEventArgs e)
+    {
+        // If your RewardsPage has a parameterless ctor, use that:
+        await Navigation.PushAsync(new RewardsPage());
+
     }
 }

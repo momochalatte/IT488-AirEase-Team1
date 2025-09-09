@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IT488_Reg_Form.CartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:IT488_Reg_Form"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
+    Title="Cart"
+    BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <Color x:Key="BrandBlue">#2C79B9</Color>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="#222" />
+        </Style>
+        <!-- Converter is defined in Converters/IntToBoolConverter.cs -->
+        <local:IntToBoolConverter x:Key="IntToBoolConverter" />
+    </ContentPage.Resources>
+
+    <!-- Single root Grid. 4 rows:
+         0 = items, 1 = subtotal, 2 = checkout button, 3 = bottom nav -->
+    <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="16">
+
+        <!-- Cart items -->
+        <CollectionView x:Name="CartList"
+                        Grid.Row="0"
+                        ItemsSource="{Binding Items}"
+                        EmptyView="Your cart is empty.">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem Text="Remove"
+                                           BackgroundColor="#D32F2F"
+                                           CommandParameter="{Binding .}"
+                                           Invoked="RemoveSwipe_Invoked"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid Padding="10"
+                              ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto,Auto"
+                              BackgroundColor="#F7F7F7"
+                              Margin="0,6">
+                            <VerticalStackLayout Grid.RowSpan="2" Spacing="2">
+                                <Label Text="{Binding Airline}" FontAttributes="Bold"/>
+                                <Label Text="{Binding Route}" />
+                                <Label Text="{Binding Details}" FontSize="12" TextColor="#666"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="6" HorizontalOptions="End">
+                                <Label Text="{Binding PriceDisplay}"
+                                       FontSize="18" FontAttributes="Bold"
+                                       HorizontalTextAlignment="End"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Subtotal -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Padding="6,8">
+            <Label Text="Subtotal" FontSize="16" />
+            <Label Grid.Column="1"
+                   Text="{Binding Subtotal, StringFormat='{}{0:C2}'}"
+                   FontSize="16" FontAttributes="Bold"/>
+        </Grid>
+
+        <!-- Checkout -->
+        <Button Grid.Row="2"
+                Text="Check Out"
+                Clicked="Checkout_Clicked"
+                BackgroundColor="{StaticResource BrandBlue}"
+                TextColor="White"
+                CornerRadius="8"
+                HeightRequest="48"
+                IsEnabled="{Binding Items.Count, Converter={StaticResource IntToBoolConverter}}"/>
+
+        <!-- Bottom nav bar (ensure this custom control exists; see below) -->
+        <controls:BottomNavBar Grid.Row="3"/>
+    </Grid>
+</ContentPage>

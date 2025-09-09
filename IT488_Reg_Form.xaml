@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:controls="clr-namespace:IT488_Reg_Form.Controls"
     Title="AirEase — Register"
     BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -36,11 +37,36 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="16">
 
-            <!-- Header: logo left, name right -->
-            <HorizontalStackLayout Spacing="10" VerticalOptions="Start" Padding="0,6,0,12">
-                <Image Source="aireaselogo.png" HeightRequest="100" WidthRequest="100" Aspect="AspectFit"/>
-                <Label Text="AirEase" FontSize="24" FontAttributes="Bold" VerticalTextAlignment="Center"/>
-            </HorizontalStackLayout>
+            <!-- Header: back button, logo left, name right -->
+            <Grid Padding="0,6,0,12"
+            ColumnDefinitions="Auto,Auto,*"
+            VerticalOptions="Start"
+             Margin="16,0,16,0">
+                <ImageButton Grid.Column="0"
+                 Source="ic_back.png"
+                 BackgroundColor="Transparent"
+                 WidthRequest="28"
+                 HeightRequest="28"
+                 Clicked="BackToSignIn_Clicked" />
+
+
+                <!-- Logo -->
+                <Image Grid.Column="1"
+           Source="aireaselogo.png"
+           HeightRequest="32"
+           WidthRequest="32"
+           Aspect="AspectFit"
+           Margin="8,0,0,0" />
+
+                <!-- App name -->
+                <Label Grid.Column="2"
+           Text="AirEase"
+           FontSize="24"
+           FontAttributes="Bold"
+           VerticalTextAlignment="Center"
+           Margin="8,0,0,0" />
+            </Grid> 
+
 
             <!-- Subheading -->
             <Label Text="Profile Registration" FontSize="18" FontAttributes="Bold"/>
@@ -167,6 +193,13 @@
                 TextColor="White"
                 CornerRadius="10"
                 HeightRequest="48"/>
+
+            <Button Text="Go to Check-In" Clicked="GoCheckIn_Clicked"
+        BackgroundColor="#24A0ED" TextColor="White" CornerRadius="8" HeightRequest="46"/>
+
+
+
+
 
             <!-- navigate to search -->
             <Button 
